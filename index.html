@@ -6,298 +6,384 @@
   <title>Põhikooli ajalooeksami äpp</title>
   <style>
     :root {
-      --bg: #f4f6fb;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --primary: #1d4ed8;
-      --primary-soft: #dbeafe;
-      --good: #dcfce7;
-      --bad: #fee2e2;
-      --border: #e5e7eb;
-      --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      --bg:#f4f7fb; --card:#fff; --text:#1f2937; --muted:#6b7280; --primary:#1d4ed8;
+      --primary-soft:#dbeafe; --good:#dcfce7; --bad:#fee2e2; --border:#e5e7eb;
+      --shadow:0 10px 28px rgba(15,23,42,.08);
     }
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: var(--bg); color: var(--text); line-height: 1.45; }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
-    .hero { background: linear-gradient(135deg, #1d4ed8, #2563eb); color: white; border-radius: 24px; padding: 28px; box-shadow: var(--shadow); margin-bottom: 20px; }
-    .hero h1 { margin: 0 0 8px; font-size: 34px; }
-    .hero p { margin: 0; opacity: 0.95; max-width: 760px; }
-    .top-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin: 20px 0; }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); }
-    .section-title { margin: 0 0 12px; font-size: 22px; }
-    .small { color: var(--muted); font-size: 14px; }
-    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
-    .stat { background: #f8fafc; border: 1px solid var(--border); border-radius: 16px; padding: 14px; }
-    .stat strong { display: block; font-size: 24px; margin-bottom: 4px; }
-    .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 20px; }
-    .tab-btn { border: 1px solid var(--border); background: white; color: var(--text); padding: 12px 16px; border-radius: 999px; cursor: pointer; font-weight: bold; }
-    .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-    .grid-2, .grid-3, .grid-4 { display: grid; gap: 14px; }
-    .grid-2 { grid-template-columns: repeat(2, 1fr); }
-    .grid-3 { grid-template-columns: repeat(3, 1fr); }
-    .grid-4 { grid-template-columns: repeat(4, 1fr); }
-    .timeline-item, .person, .flashcard, .topic-box { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 16px; box-shadow: var(--shadow); }
-    .timeline-year { color: var(--primary); font-size: 24px; font-weight: bold; margin-bottom: 6px; }
-    .flashcard { cursor: pointer; min-height: 120px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: bold; font-size: 18px; background: linear-gradient(180deg, #ffffff, #f8fafc); }
-    .topic-box h3, .person h3 { margin-top: 0; margin-bottom: 8px; }
-    .topic-box ul { margin: 8px 0 0 18px; padding: 0; }
-    .exam-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-    .pill { background: var(--primary-soft); color: var(--primary); padding: 10px 14px; border-radius: 999px; font-weight: bold; }
-    .question { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 18px; box-shadow: var(--shadow); margin-bottom: 14px; }
-    .question-title { font-weight: bold; margin-bottom: 12px; font-size: 18px; }
-    .answers { display: grid; gap: 10px; }
-    button.answer-btn, .action-btn { display: block; width: 100%; text-align: left; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--border); background: #f9fafb; cursor: pointer; font-size: 15px; }
-    button.answer-btn:hover, .action-btn:hover, .tab-btn:hover { filter: brightness(0.98); }
-    button.answer-btn.correct { background: var(--good); border-color: #86efac; }
-    button.answer-btn.wrong { background: var(--bad); border-color: #fca5a5; }
-    .result-box { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); margin-top: 18px; }
-    .review-item { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
-    .footer-note { color: var(--muted); text-align: center; margin: 24px 0 8px; font-size: 14px; }
-    @media (max-width: 900px) {
-      .top-grid, .grid-4, .grid-3 { grid-template-columns: 1fr; }
-      .grid-2 { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .hero h1 { font-size: 28px; }
-    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1200px;margin:0 auto;padding:20px}
+    .hero{background:linear-gradient(135deg,#1d4ed8,#2563eb);color:#fff;padding:28px;border-radius:24px;box-shadow:var(--shadow);margin-bottom:18px}
+    .hero h1{margin:0 0 8px;font-size:34px}
+    .hero p{margin:0;max-width:800px;opacity:.95}
+    .grid-top{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:18px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:18px;box-shadow:var(--shadow)}
+    .section-title{margin:0 0 12px;font-size:22px}
+    .small{font-size:14px;color:var(--muted)}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .stat{background:#f8fafc;border:1px solid var(--border);border-radius:16px;padding:14px}
+    .stat strong{display:block;font-size:24px;margin-bottom:4px}
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+    .tab-btn,.primary-btn,.ghost-btn,.answer-btn,select,input[type=text]{border:1px solid var(--border);border-radius:14px;font-size:15px}
+    .tab-btn{background:#fff;padding:12px 16px;font-weight:700;cursor:pointer}
+    .tab-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .tab{display:none}.tab.active{display:block}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+    .primary-btn,.ghost-btn{padding:12px 16px;cursor:pointer}
+    .primary-btn{background:var(--primary);color:#fff;border-color:var(--primary);font-weight:700}
+    .ghost-btn{background:#fff}
+    select,input[type=text]{padding:12px 14px;background:#fff}
+    .question{background:#fff;border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+    .question h3{margin:0 0 12px;font-size:18px}
+    .answers{display:grid;gap:10px}
+    .answer-btn{padding:12px 14px;background:#f9fafb;cursor:pointer;text-align:left;width:100%}
+    .answer-btn.correct{background:var(--good);border-color:#86efac}
+    .answer-btn.wrong{background:var(--bad);border-color:#fca5a5}
+    .pill{display:inline-block;background:var(--primary-soft);color:var(--primary);border-radius:999px;padding:9px 14px;font-weight:700;margin-right:8px}
+    .result{background:#fff;border:1px solid var(--border);border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-top:16px}
+    .review{border-top:1px solid var(--border);padding-top:12px;margin-top:12px}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    ul{margin:8px 0 0 18px}
+    @media (max-width: 900px){.grid-top,.two-col,.stats{grid-template-columns:1fr}.hero h1{font-size:28px}}
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="hero">
       <h1>Põhikooli ajalooeksami äpp</h1>
-      <p>Õpi 9. klassi ajalooeksamiks teemade, aastaarvude, oluliste inimeste, sõnakaartide ja päris eksami moodi valikvastustega testiga.</p>
+      <p>Valmis suure küsimuspangaga õppimiseks. Harjuta teemade kaupa või tee juhuslik eksam. Küsimused põhinevad sinu siia saadetud 2021–2025 eksamimaterjalidel, lühendatud kiiremaks õppimiseks.</p>
     </div>
 
-    <div class="top-grid">
+    <div class="grid-top">
       <div class="card">
         <h2 class="section-title">Mis siin sees on?</h2>
         <div class="stats">
-          <div class="stat"><strong>6</strong><span class="small">põhiteemat</span></div>
-          <div class="stat"><strong>20</strong><span class="small">tähtsat aastaarvu</span></div>
-          <div class="stat"><strong>10</strong><span class="small">olulist inimest</span></div>
-          <div class="stat"><strong>34</strong><span class="small">eksamiküsimust</span></div>
+          <div class="stat"><strong id="statCount">0</strong><span class="small">küsimust küsimuspangas</span></div>
+          <div class="stat"><strong>60</strong><span class="small">küsimust eksamirežiimis</span></div>
+          <div class="stat"><strong>2</strong><span class="small">režiimi: Exam + Practice</span></div>
+          <div class="stat"><strong>2021–2025</strong><span class="small">HARNO-põhised teemad</span></div>
         </div>
       </div>
       <div class="card">
-        <h2 class="section-title">Kuidas õppida?</h2>
-        <div class="small">1. Vaata teemad läbi.<br>2. Korda aastaarve ja inimesi.<br>3. Klõpsa sõnakaarte.<br>4. Tee eksami test lõpuni.<br>5. Vaata üle valed vastused.</div>
+        <h2 class="section-title">Kuidas kasutada?</h2>
+        <div class="small">1. Practice = harjuta teema kaupa.<br>2. Exam = tee 60 juhuslikku küsimust.<br>3. Lõpus näed õiged vastused ja selgitused.<br>4. Kasuta uuesti, et saada uus juhuslik test.</div>
       </div>
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" data-tab="teemad">Teemad</button>
-      <button class="tab-btn" data-tab="aastad">Aastaarvud</button>
-      <button class="tab-btn" data-tab="inimesed">Inimesed</button>
-      <button class="tab-btn" data-tab="flashcards">Sõnakaardid</button>
-      <button class="tab-btn" data-tab="eksam">Eksami test</button>
+      <button class="tab-btn active" data-tab="study">Õpperežiim</button>
+      <button class="tab-btn" data-tab="exam">Eksamirežiim</button>
+      <button class="tab-btn" data-tab="topics">Teemad</button>
     </div>
 
-    <div id="teemad" class="tab-panel active">
-      <div class="grid-2">
-        <div class="topic-box"><h3>I maailmasõda ja Eesti iseseisvumine</h3><ul><li>1914 algas I maailmasõda</li><li>1917 Vene revolutsioonid</li><li>24.02.1918 Eesti iseseisvuse väljakuulutamine</li></ul></div>
-        <div class="topic-box"><h3>Vabadussõda ja Tartu rahu</h3><ul><li>1918–1920 Vabadussõda</li><li>Johan Laidoner</li><li>02.02.1920 Tartu rahu</li></ul></div>
-        <div class="topic-box"><h3>II maailmasõda</h3><ul><li>1939 sõja algus</li><li>Molotovi–Ribbentropi pakt</li><li>1940 Eesti okupeerimine</li><li>1945 sõja lõpp Euroopas</li></ul></div>
-        <div class="topic-box"><h3>Külm sõda</h3><ul><li>Trumani doktriin</li><li>Marshalli plaan</li><li>NATO ja Varssavi pakt</li><li>Raudne eesriie</li></ul></div>
-        <div class="topic-box"><h3>Eesti NSV aeg</h3><ul><li>1941 ja 1949 küüditamised</li><li>Kollektiviseerimine</li><li>Tsensuur ja venestamine</li><li>Metsavendlus</li></ul></div>
-        <div class="topic-box"><h3>Taasiseseisvumine</h3><ul><li>1988 laulev revolutsioon</li><li>1989 Balti kett</li><li>1991 Eesti taasiseseisvumine</li></ul></div>
-      </div>
-    </div>
-
-    <div id="aastad" class="tab-panel"><div class="grid-4" id="timelineGrid"></div></div>
-    <div id="inimesed" class="tab-panel"><div class="grid-3" id="peopleGrid"></div></div>
-    <div id="flashcards" class="tab-panel"><div class="card" style="margin-bottom:14px;"><strong>Juhis:</strong> klõpsa kaardil, et näha vastust.</div><div class="grid-3" id="flashcardsGrid"></div></div>
-
-    <div id="eksam" class="tab-panel">
+    <div id="study" class="tab active">
       <div class="card">
-        <div class="exam-header">
-          <div><h2 class="section-title" style="margin-bottom:4px;">Päris eksami moodi test</h2><div class="small">34 valikvastustega küsimust ajaloo põhiteemadest.</div></div>
-          <div style="display:flex; gap:10px; flex-wrap:wrap;"><div class="pill" id="timer">Aeg: 20:00</div><div class="pill" id="progress">Vastatud: 0/34</div></div>
+        <div class="controls">
+          <select id="topicFilter"></select>
+          <button class="primary-btn" id="loadPracticeBtn">Lae küsimused</button>
+          <span class="pill" id="practiceCount">0 küsimust</span>
         </div>
-        <button class="action-btn" id="startExamBtn" style="max-width:280px; background:var(--primary); color:white; border-color:var(--primary);">Alusta testi</button>
+        <div id="practiceContainer"></div>
       </div>
-      <div id="examContainer" style="margin-top:16px;"></div>
-      <div id="resultContainer"></div>
+    </div>
+
+    <div id="exam" class="tab">
+      <div class="card">
+        <div class="controls">
+          <button class="primary-btn" id="startExamBtn">Alusta 60-küsimusega eksamit</button>
+          <span class="pill" id="timer">Aeg: 50:00</span>
+          <span class="pill" id="progress">Vastatud: 0/0</span>
+        </div>
+        <div class="small">Eksam kasutab juhuslikku valikut suuremast küsimuspangast. Iga kord uus test.</div>
+      </div>
+      <div id="examContainer" style="margin-top:16px"></div>
+      <div id="examResult"></div>
+    </div>
+
+    <div id="topics" class="tab">
+      <div class="two-col">
+        <div class="card">
+          <h2 class="section-title">Peamised teemad</h2>
+          <ul>
+            <li>Eesti 1918–1944</li>
+            <li>Eesti 1944–1991</li>
+            <li>Eesti 1991–2004</li>
+            <li>Maailm kahe maailmasõja vahel</li>
+            <li>Teine maailmasõda</li>
+            <li>Külm sõda ja idabloki lagunemine</li>
+            <li>Kultuur, tehnika, tarbimisühiskond</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2 class="section-title">Mida see äpp treenib?</h2>
+          <ul>
+            <li>aastaarvud ja sündmused</li>
+            <li>mõisted ja isikud</li>
+            <li>põhjused ja tagajärjed</li>
+            <li>võrdlused: autoritarism vs totalitarism</li>
+            <li>külma sõja kriisid</li>
+            <li>Eesti iseseisvumine ja taastamine</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
-    const timelineItems = [
-      ["1914", "I maailmasõja algus"], ["1917", "Vene revolutsioonid"], ["1918", "Eesti iseseisvus"],
-      ["1918–1920", "Vabadussõda"], ["1920", "Tartu rahu"], ["1939", "II maailmasõja algus"],
-      ["1940", "Eesti okupeerimine"], ["1941", "Juuniküüditamine"], ["1945", "II maailmasõja lõpp"],
-      ["1949", "Märtsiküüditamine"], ["1949", "NATO loomine"], ["1955", "Varssavi pakt"],
-      ["1988", "Laulev revolutsioon"], ["1989", "Balti kett"], ["1991", "Eesti taasiseseisvumine"],
-      ["2004", "Eesti liitus NATO ja EL-iga"]
+    const questionBank = [
+      // Eesti 1918-1944
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Mis aastatel toimus Vabadussõda?', options:['1917–1919','1918–1920','1919–1921','1939–1940'], answer:1, explanation:'Vabadussõda toimus aastatel 1918–1920.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Mis lõpetas Vabadussõja?', options:['Baaside leping','Tartu rahu','MRP','Balti kett'], answer:1, explanation:'Vabadussõja lõpetas Tartu rahu.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Kes oli Vabadussõjas Eesti vägede ülemjuhataja?', options:['Konstantin Päts','Johan Laidoner','Jaan Poska','Lennart Meri'], answer:1, explanation:'Eesti vägesid juhtis Johan Laidoner.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Millise numbriga oli kaardil tähistatud piir, kuhu Punaarmee jõudis Vabadussõja alguses?', options:['1','2','3','4'], answer:0, explanation:'Õige vastus oli 1.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Mis oli üks põhjus, miks Punaarmee oli Vabadussõja alguses edukam?', options:['Eesti oli paremini relvastatud','Punaarmeel oli arvuline ülekaal','Eestil oli rohkem tanke','Laidoner puudus rindelt'], answer:1, explanation:'Punaarmeel oli suurem arvuline ja sageli ka relvastuslik ülekaal.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Mis oli üks soomusrongide eelis?', options:['Said liikuda ainult merel','Võimaldasid kiireid läbimurdeid ja olid relvastatud','Neil puudus meeskond','Nad ei vajanud raudteed'], answer:1, explanation:'Soomusrongid olid relvastatud ja võimaldasid kiiret liikumist mööda raudteed.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Mis oli üks soomusrongide puudus?', options:['Neil polnud relvi','Said liikuda vaid mööda raudteid','Need olid puidust','Need ei mahutanud sõdureid'], answer:1, explanation:'Soomusrongide liikumine sõltus raudteest.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Milline oli Manifesti kõigile Eestimaa rahvastele keskne seisukoht?', options:['Eesti liitub Venemaaga','Eesti on iseseisev demokraatlik vabariik','Eestis kehtib monarhia','Kõik võim läheb Saksamaale'], answer:1, explanation:'Manifest kuulutas Eesti iseseisvaks demokraatlikuks vabariigiks.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Milles kaks entsüklopeediaallikat Eesti iseseisvumise kohta erinesid?', options:['Faktides mitte kuidagi','Hinnangutes iseseisvumise tähendusele','Kuupäevades ainult ühe päeva võrra','Mõlemad toetasid sama ideoloogiat'], answer:1, explanation:'Need erinesid peamiselt hinnangutes ja ideoloogilises raamistikus.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Miks olid need allikad erinevad?', options:['Need ilmusid eri aegadel ja eri ideoloogilises olukorras','Need kirjutas sama autor','Mõlemad olid sõja ajal kirjutatud','Põhjus polnud teada'], answer:0, explanation:'Nõukogude aja ja taasiseseisvunud Eesti käsitlused olid erinevad.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Milline säte näitas, et 1920. aasta põhiseaduse järgi oli Eesti demokraatlik?', options:['Kõrgeim võim kuulus rahvale','Kõik võim kuulus riigivanemale','Lubatud oli üks partei','Riik allus sõjaväele'], answer:0, explanation:'Rahvas oli kõrgeim võimu kandja.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Milline teine põhimõte näitas 1920. aasta põhiseaduse demokraatlikkust?', options:['Võimude lahusus','Tsensuur','Dekreedid','Ainupartei'], answer:0, explanation:'Riigivõim jagunes seadusandlikuks, täidesaatvaks ja kohtuvõimuks.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Mis probleem kaasnes 1920. aasta põhiseadusega?', options:['Valitsused vahetusid pidevalt','President oli liiga võimas','Riigikogu puudus','Eesti liitus NSV Liiduga'], answer:0, explanation:'Valitsuste sagedane vahetumine tekitas ebastabiilsust.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Kes esitas 1933. aasta põhiseaduse eelnõu?', options:['Kommunistid','Vabadussõjalased','Rahvasteliit','Asutav Kogu'], answer:1, explanation:'Eelnõu esitasid vabadussõjalased ehk vapsid.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Milline joon iseloomustas Eestit aastatel 1920–1934?', options:['Erakondade rohkus','Riigivanema dekreedid','President valitses üksi','Tsensuur'], answer:0, explanation:'Tegu oli parlamentaarse demokraatiaga.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Milline joon iseloomustas Eestit aastatel 1934–1940?', options:['Ajakirjandusvabadus','Riiki juhiti riigivanema dekreetidega','Riigikogu valiti vabalt iga kolme aasta järel','Erakondade rohkus'], answer:1, explanation:'Pärast 1934. aastat valitses autoritaarne kord.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Mis toimus Eestis 1934. aastal?', options:['Sõjaväeline riigipööre','Tartu rahu','Balti kett','Rahvahääletus EL-i üle'], answer:0, explanation:'1934. aastal toimus sõjaväeline riigipööre.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Miks nimetatakse Pätsi luuletuses iseseisvuse isaks?', options:['Ta kuulus Päästekomiteesse ja juhtis Ajutist Valitsust','Ta asutas NATO','Ta juhtis Berliini blokaadi','Ta sõlmis MRP'], answer:0, explanation:'Päts oli üks Eesti riigi rajajaid.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Millisel poliitilisel ametikohal töötas Konstantin Päts?', options:['President','Kõik loetletud variandid võivad õiged olla','Ainult linnapea','Ainult minister'], answer:1, explanation:'Päts töötas peaministri, riigivanema, riigihoidja ja presidendina.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Mida tähendab rida, et Päts 'lipu vastupanuta langetas'?', options:['Eesti lubas NSV Liidu väed sisse ja see võimaldas okupeerimise','Päts loobus presidendiametist vabatahtlikult','Eesti liitus NATO-ga','Tegu oli lauluga'], answer:0, explanation:'Vastastikuse abistamise pakt ja vägede sisse toomine tegid okupatsiooni lihtsaks.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Keda kujutasid Hitleri ja Stalini karikatuuril olevad kaks madu?', options:['Hitler ja Stalin','Roosevelt ja Churchill','Päts ja Laidoner','Kennedy ja Hruštšov'], answer:0, explanation:'Karikatuur viitas Hitlerile ja Stalinile.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Miks kujutati Hitlerit ja Stalinit koos sarnastena?', options:['Mõlemad olid totalitaarsed juhid','Mõlemad juhtisid Eestit','Mõlemad olid demokraadid','Mõlemad kuulusid NATO-sse'], answer:0, explanation:'Mõlemad kasutasid ainuvõimu ja repressioone.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Kuidas mõjutas Molotovi–Ribbentropi pakt Balti riikide saatust?', options:['Jättis need NSV Liidu mõjusfääri ja võimaldas okupatsiooni','Tagas neile NATO kaitse','Taastas nende iseseisvuse','Liitis nad EL-iga'], answer:0, explanation:'Salaprotokollid jätsid Balti riigid NSV Liidu mõjusfääri.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Miks loodi Eesti Vabariigi Rahvuskomitee?', options:['Eesti omariikluse taastamise koordineerimiseks','Soomusrongide ehitamiseks','NATO-ga liitumiseks','Euro kasutuselevõtuks'], answer:0, explanation:'Rahvuskomitee eesmärk oli omariikluse taastamine.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Millisele 1940. aasta sündmusele viidati kui juunipöördele?', options:['NSV Liidu kontrollitud riigipöördele Eestis','Tartu rahule','Balti ketile','Märtsipommitamisele'], answer:0, explanation:'Juunipööre tähistas 1940. aasta riigipööret Eesti okupeerimise käigus.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Miks pöördus Rahvuskomitee rahva poole just augustis 1944?', options:['Saksa väed taandusid ja tekkis lootus riik taastada','Toimus Balti kett','Eesti liitus ÜRO-ga','Algas Vabadussõda'], answer:0, explanation:'Rindeolukord muutus ja tekkis lühiajaline võimalus omariikluse taastamiseks.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Millist linna puudutas märtsipommitamine?', options:['Tallinna','Tartut','Narvat','Pärnut'], answer:0, explanation:'Allikas käsitles Tallinna märtsipommitamist.'},
+      {topic:'Eesti 1918–1944', type:'mcq', q:'Miks pommitatakse sõdades linnu ja tsiviilelanikke?', options:['Vastupanu tahte murdmiseks ja hirmutamiseks','Ainult lõbustuseks','Et kasvatada rahvaarvu','Et taastada rahu'], answer:0, explanation:'Pommitamine püüab murda elanikkonna vastupanuvõimet.'},
+
+      // Eesti 1944–1991
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Milline mõiste kuulub majanduse alla?', options:['IME','kolhoos','laulupidu','metsavennad'], answer:1, explanation:'Kolhoos kuulus majanduse valdkonda.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Milline mõiste kuulub poliitika alla?', options:['Rahvarinde asutamine','rubla','industrialiseerimine','laulupidu'], answer:0, explanation:'Rahvarinne oli poliitiline liikumine.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Milline mõiste kuulub kultuuri alla?', options:['laulupidu','IME','rubla','kolhoos'], answer:0, explanation:'Laulupidu kuulub kultuurivaldkonda.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Mis on kolhoos?', options:['Ühismajand','Sõjaline liit','Valuuta','Parteiorgan'], answer:0, explanation:'Kolhoos oli põllumajanduslik ühismajand.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Mida tähendab industrialiseerimine?', options:['Suurtööstuse eelisarendamist','Põllumajanduse kokkuvarisemist','Valimiste reformi','Sõnavabadust'], answer:0, explanation:'Industrialiseerimine tähendab tööstuse kiiret arendamist.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Kes olid metsavennad?', options:['Nõukogude partisanid','Balti partisanid, kes võitlesid Nõukogude võimu vastu','Kolhooside juhid','Rahvarinde liikmed'], answer:1, explanation:'Metsavennad varjasid end metsas ja osutasid relvastatud vastupanu.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Mis oli rubla?', options:['Nõukogude Liidu valuuta','Eesti kroon','Euro eelkäija','Kaubamärk'], answer:0, explanation:'Rubla oli NSV Liidus käibel olnud rahaühik.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Miks lahkus aastatel 1939–1945 palju eestlasi läände?', options:['Põgeneti okupatsiooni ja repressioonide eest','Mind i turismireisile','Taheti liituda EL-iga','Puudus töö'], answer:0, explanation:'Inimesed põgenesid sõja ja nõukogude võimu eest.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Miks vähenes aastatel 1939–1945 eestlaste koguarv?', options:['Sõjaohvrid, repressioonid ja negatiivne iive','Ainult sportimise vähenemine','ÜRO liikmelisus','Turism'], answer:0, explanation:'Sõda, repressioonid ja suurenenud suremus vähendasid rahvaarvu.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Kellega kohtus Boriss Jeltsin Eestis 13. jaanuaril 1991?', options:['Arnold Rüütliga','Lennart Meriga','Edgar Savisaarega','Konstantin Pätsiga'], answer:0, explanation:'Pildil oli Arnold Rüütel.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Milline oluline sündmus leidis aset 1991. aastal Eestis?', options:['Iseseisvuse taastamine','Tartu rahu','Balti kett','NATO-ga liitumine'], answer:0, explanation:'1991. aastal taastati Eesti iseseisvus.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Miks mõjutas suur sisseränne eestlaste olukorda Eesti NSV-s?', options:['Eestlaste osakaal vähenes ja vene keel tugevnes','Kõik õppisid eesti keelt','Kolhoosid kadusid','Eesti liitus EL-iga'], answer:0, explanation:'Sisseränne vähendas eestlaste osakaalu rahvastikus.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Too näide venestuspoliitikast.', options:['Vene keel muudeti asjaajamiskeeleks','Eesti keel muudeti ainsaks ametikeeleks','Kõik koolid suleti','Keelati tööstus'], answer:0, explanation:'Venestuspoliitika surus peale vene keelt asjaajamises ja hariduses.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Mis aastal toimusid Balti kett ja Berliini müüri langemine?', options:['1988','1989','1990','1991'], answer:1, explanation:'Mõlemad sündmused leidsid aset 1989. aastal.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Miks oli Balti kett Eesti iseseisvuse taastamise seisukohalt tähtis?', options:['Tõi maailma tähelepanu okupatsioonile','Lõpetas Vabadussõja','Asutas NATO','Lõi krooni'], answer:0, explanation:'See näitas rahumeelset vastupanu ja tõmbas maailma tähelepanu Balti riikidele.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Millal taastati Eesti iseseisvus?', options:['23.08.1989','20.08.1991','24.02.1918','02.02.1920'], answer:1, explanation:'Õige kuupäev on 20. august 1991.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Mis oli operatsioon Priboi eesmärk?', options:['Kollektiviseerimise läbiviimine ja hirmuõhkkonna tekitamine','Eesti liitmine NATO-ga','Majanduskasvu kiirendamine','Rahareform'], answer:0, explanation:'Märtsiküüditamine aitas murda vastupanu ja suruda läbi kollektiviseerimist.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Miks küüditati Leedust 1949. aastal proportsionaalselt vähem inimesi kui Eestist või Lätist?', options:['Leedus oli juba eelmisel aastal toimunud suur küüditamine','Leedu ei kuulunud NSV Liitu','Leedus puudus vastupanu','Leedus polnud talusid'], answer:0, explanation:'1948. aastal oli Leedus juba toimunud ulatuslik küüditamine.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Too näide vastupanuliikumisest Nõukogude võimule.', options:['Metsavendlus','Marshalli plaan','Normandia dessant','Rahvasteliit'], answer:0, explanation:'Metsavendlus oli üks olulisemaid vastupanuliikumise vorme.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Too totalitaarsele režiimile iseloomulik tunnus.', options:['Tsensuur','Mitmeparteilisus','Vabad valimised','Võimude lahusus'], answer:0, explanation:'Tsensuur on totalitaarse režiimi tüüpiline tunnus.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Miks inimesed totalitaarsele režiimile allusid?', options:['Hirm karistuse ees','Kõik toetasid seda siiralt','Puudusid juhid','Kõik olid rikkad'], answer:0, explanation:'Allumist põhjustas sageli hirm enda ja lähedaste pärast.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Mis oli perestroika?', options:['NSV Liidu reformiprogramm','Sõjaline liit','Tuumakatastroof','Euroopa Liidu leping'], answer:0, explanation:'Perestroika oli reformide programm Nõukogude süsteemi uuendamiseks.'},
+      {topic:'Eesti 1944–1991', type:'mcq', q:'Miks tervitati perestroikat?', options:['See tõi rohkem vabadusi ja vähendas hirmu','See suurendas tsensuuri','See lõpetas kõik reformid','See sulges ettevõtted'], answer:0, explanation:'Perestroika ja glasnost muutsid elu vabamaks.'},
+
+      // Eesti 1991-2004
+      {topic:'Eesti 1991–2004', type:'mcq', q:'Milline väide on 1992. aasta põhiseaduse kohta õige?', options:['See taaskehtestas 1920. aasta põhiseaduse','See taaskehtestas 1938. aasta põhiseaduse','See oli täiesti uus põhiseadus','Seda ei võetud vastu rahvahääletusel'], answer:2, explanation:'1992. aasta põhiseadus oli uus.'},
+      {topic:'Eesti 1991–2004', type:'mcq', q:'Mida tehti omandireformiga?', options:['Tagastati natsionaliseeritud vara','Kõik vara anti riigile','Seadustati okupatsiooni ajal kujunenud olukord','Keelati eraomand'], answer:0, explanation:'Omandireformiga tagastati nõukogude võimu poolt natsionaliseeritud vara.'},
+      {topic:'Eesti 1991–2004', type:'mcq', q:'Mis raha kehtestati 1992. aasta rahareformiga?', options:['Euro','Kroon','Rubla','Mark'], answer:1, explanation:'1992. aastal kehtestati Eesti kroon.'},
+      {topic:'Eesti 1991–2004', type:'mcq', q:'Mis iseloomustab turumajandusele üleminekut?', options:['Käsumajandus laguneb ja tekib vabam majandus', 'Kõik hinnad määrab ainult riik','Kolhoosid taastatakse','Liikumine peatub'], answer:0, explanation:'Turumajandusele üleminek tähendas käsumajanduse lagunemist ja vabama majanduse kujunemist.'},
+      {topic:'Eesti 1991–2004', type:'mcq', q:'Milline endine liiduvabariik läks samuti üle turumajandusele?', options:['Leedu','Poola','Ungari','Tšehhi'], answer:0, explanation:'Leedu kuulus NSV Liitu ja läks samuti üle turumajandusele.'},
+      {topic:'Eesti 1991–2004', type:'mcq', q:'Milline organisatsioon ühendab 27 liikmesriiki ja tegeleb majandusliku ning poliitilise koostööga?', options:['NATO','ÜRO','Euroopa Liit','Varssavi pakt'], answer:2, explanation:'See on Euroopa Liit.'},
+      {topic:'Eesti 1991–2004', type:'mcq', q:'Mis tähendab NATO?', options:['Põhja-Atlandi Lepingu Organisatsioon','ÜRO allüksus','Euroopa kaitsenõukogu','Nõukogude Allianss'], answer:0, explanation:'NATO tähendab Põhja-Atlandi Lepingu Organisatsiooni.'},
+      {topic:'Eesti 1991–2004', type:'mcq', q:'Miks tundus 1990. aastate alguses Eesti NATO liikmelisus võimatu?', options:['Eestis viibisid veel Vene väed ja Venemaa oli vastu','Eesti oli juba NATO liige','Eesti oli neutraalne saareriik','USA ei eksisteerinud'], answer:0, explanation:'Võõrväed olid Eestis kuni 1994. aastani.'},
+      {topic:'Eesti 1991–2004', type:'mcq', q:'Mis aastal liitus Eesti NATO-ga?', options:['1991','1992','2004','2011'], answer:2, explanation:'Eesti liitus NATO-ga 2004. aastal.'},
+      {topic:'Eesti 1991–2004', type:'mcq', q:'Millise teise ühendusega liitus Eesti samal ajal kui NATO-ga?', options:['Varssavi pakt','Euroopa Liit','Rahvasteliit','SRÜ'], answer:1, explanation:'Eesti liitus 2004. aastal ka Euroopa Liiduga.'},
+
+      // Maailm kahe maailmasõja vahel
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Milline riik mängis USA ja Suurbritannia kõrval Pariisi rahukonverentsil tähtsat rolli?', options:['Prantsusmaa','Venemaa','Itaalia','Belgia'], answer:0, explanation:'Kolmas võtmeriik oli Prantsusmaa.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Miks võis kunstnik seostada Versailles’ lepingut Hitleriga?', options:['Lepingu tingimused tekitasid Saksamaal trotsi ja aitasid Hitleril võimule tõusta','Leping tegi Hitlerist presidendi','Leping lõi NATO','Leping lõpetas kõik konfliktid'], answer:0, explanation:'Versailles’ rahu tekitas Saksamaal revanšismi.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Millise riigiga sõlmiti veel Pariisi rahukonverentsi järel rahuleping?', options:['Austria','Rootsi','Taani','Norra'], answer:0, explanation:'Rahulepingud sõlmiti näiteks Austria, Ungari, Bulgaaria ja Türgiga.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Millist režiimi kirjeldab autoritarismi iseloomustus?', options:['Autoritarism','Totalitarism','Demokraatia','Konstitutsiooniline monarhia'], answer:0, explanation:'Kirjeldatud oli autoritaarset režiimi.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Too näide riigist, kus 1930. aastatel valitses autoritaarne kord.', options:['Eesti','Rootsi','Šveits','Belgia'], answer:0, explanation:'Näiteks Eestis valitses 1934–1940 autoritaarne kord.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Mille poolest erines autoritarism totalitarismist?', options:['Autoritarism ei kontrolli tavaliselt kõiki eraelu aspekte', 'Autoritarismil puudub juht','Totalitarism on vabam','Autoritarismis on alati mitu parteid'], answer:0, explanation:'Totalitarism püüab kontrollida kogu ühiskonda, autoritarism keskendub eelkõige võimu hoidmisele.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Milline oli ühe suure majanduskriisi põhjus?', options:['Kaupade ületootmine','EL laienemine','Kosmosevõidujooks','Külma sõja lõpp'], answer:0, explanation:'Ületootmine tähendas, et toodeti rohkem kui inimesed osta jõudsid.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Mis lõpetas USA 1929. aasta prosperity ehk õitsengu?', options:['Börsikrahh','Normandia dessant','Balti kett','Marshalli plaan'], answer:0, explanation:'Õitsengu lõpetas 1929. aasta börsikrahh.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Milline New Deali meede aitas kriisist väljuda?', options:['Riik lõi ajutisi töökohti','Keelati kõik laenud igaveseks','Suleti tehased','Kaotati kõik maksud'], answer:0, explanation:'Roosevelt kasutas avalike tööde programme ja muid sekkumisi.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Mida näitas 1920. aastate naistemood ühiskonnas?', options:['Naiste suuremat vabadust ja aktiivsust avalikus elus','Tagasipöördumist keskaja normidesse','Naiste eemaldumist tööturult','Kultuuri kadumist'], answer:0, explanation:'Vabam mood peegeldas naiste muutunud rolli ühiskonnas.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Kuidas mõjutas massimeedia moodi?', options:['Trendide levik kiirenes ja mood muutus kättesaadavamaks','Mood kadus täiesti','Riided muutusid ainult käsitööks','Mood jäi ainult eliidile'], answer:0, explanation:'Massimeedia levitas moetrende kiiresti ja laialt.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Millisest perioodist pärines debatt Rahvasteliiduga ühinemise üle?', options:['1920. aastatest','1950. aastatest','1980. aastatest','2000. aastatest'], answer:0, explanation:'Rahvasteliidu teema kerkis Eesti Vabariigi algusaastatel.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Milles Rahvasteliidu allikad erinesid?', options:['Üks pooldas liikmeks astumist, teine kahtles või oli vastu','Mõlemad olid täielikult ühel meelel','Need käsitlesid eri sajandeid','Need rääkisid NATO-st'], answer:0, explanation:'Poliitikud hindasid Rahvasteliidu kasulikkust erinevalt.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Miks võis Versailles’ rahuleping peita tulevaste sõdade põhjusi?', options:['See tekitas Saksamaal trotsi ja revanšismi','See lõpetas kõik piirivaidlused','See kaotas armeed','See ühendas Euroopa'], answer:0, explanation:'Saksamaa pidas lepingut alandavaks ning revanšism kasvas.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Millist valitsemisvormi rakendas natsionaalsotsialistlik partei?', options:['Totalitarism','Autoritarism','Parlamentaarne monarhia','Otsedemokraatia'], answer:0, explanation:'Natsionaalsotsialistlik Saksamaa oli totalitaarne riik.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Milline natside programmi punkt sarnanes kommunistlike ideaalidega?', options:['Kontsernide riigistamine','Suur-Saksamaa loomine','Saksa vere ülimuslikkus','Keskklassi toetamine'], answer:0, explanation:'Riigistamise nõue meenutas kommunistlikku majanduspoliitikat.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Milline natside programmi punkt lõi eeldused II maailmasõjaks?', options:['Kõigi sakslaste ühendamine Suur-Saksamaaks','Kontsernide riigistamine','Keskklassi loomine','Filmitööstuse arendamine'], answer:0, explanation:'Ekspansionistlik Suur-Saksamaa idee viis agressioonini.'},
+      {topic:'Maailm kahe maailmasõja vahel', type:'mcq', q:'Miks tekkis pärast II maailmasõda kaks Saksamaad?', options:['Okupatsioonitsoonid ja lääneriikide ning NSV Liidu erimeelsused','Sakslased hääletasid nii','Austria nõudis eraldamist','Rahvasteliit lagunes'], answer:0, explanation:'Külm sõda ja okupatsioonitsoonid viisid kahe Saksamaa tekkeni.'},
+
+      // II maailmasõda
+      {topic:'Teine maailmasõda', type:'mcq', q:'Mis sündmusega algas Euroopas 1. septembril 1939 teine maailmasõda?', options:['Saksamaa kallaletung Poolale','MR pakti sõlmimine','Jaapani alistumine','Teherani konverents'], answer:0, explanation:'Sõda algas Saksamaa rünnakuga Poolale.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Mis riigi alistumisega lõppes II maailmasõda?', options:['Saksamaa','Jaapani','Itaalia','Soome'], answer:1, explanation:'Sõda lõppes Jaapani alistumisega.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Milline riik sõdis liitlaste poolel?', options:['Suurbritannia','Jaapan','Itaalia','Hispaania'], answer:0, explanation:'Suurbritannia kuulus liitlaste hulka.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Milline riik jäi sõjas neutraalseks?', options:['Rootsi','NSV Liit','Jaapan','Suurbritannia'], answer:0, explanation:'Rootsi jäi ametlikult neutraalseks.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Millist sõja alguse sündmust pilkab 'kummaline sõda'?', options:['Läänerindel valitsenud passiivsust pärast Poola ründamist','Talvesõda','Atlandi hartat','Pearl Harborit'], answer:0, explanation:'Kummaline sõda tähistas aktiivse sõjategevuse puudumist läänerindel sõja alguses.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Mis oli Normandia dessant?', options:['Liitlaste maabumine Prantsusmaal','Tuumapommi heitmine','Saksamaa rünnak NSV Liidule','Rahuleping'], answer:0, explanation:'Normandia dessant oli liitlaste maabumine Prantsusmaal 1944.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Kuidas mõjutas Normandia dessant Saksamaa olukorda?', options:['Saksamaa pidi võitlema mitmel rindel', 'Saksamaa muutus tugevamaks','NSV Liit lahkus sõjast','Prantsusmaa liitus teljeriikidega'], answer:0, explanation:'Teine rinne nõrgestas Saksamaad märgatavalt.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Mis rahvuse vastu oli suunatud holokaust?', options:['Juutide','Eestlaste','Prantslaste','Rootslaste'], answer:0, explanation:'Holokaust oli juutide genotsiid.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Mis riigi okupatsiooni ajal toimus Eestis juutide hävitamine?', options:['Saksamaa','NSV Liidu','Soome','Rootsi'], answer:0, explanation:'Need kuriteod pandi toime Saksa okupatsiooni ajal.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Miks töötasid sõja ajal tehastes peamiselt naised?', options:['Mehed olid rindel','Naised said alati suuremat palka','Mehed ei tohtinud töötada','Tehased olid ainult naistele'], answer:0, explanation:'Meeste rindele minek põhjustas tööjõupuuduse tehastes.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Kes osalesid Teherani konverentsil?', options:['Roosevelt, Churchill ja Stalin','Hitler, Mussolini ja Stalin','Kennedy, Hruštšov ja Mao','Päts, Laidoner ja Meri'], answer:0, explanation:'Teheranis kohtusid kolme suure liitlasriigi juhid.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Kuidas mõjutas teise rinde avamine Prantsusmaal sõda?', options:['Saksamaa pidi osa vägesid idast ära tooma','Sõda lõppes kohe samal päeval','Jaapan alistus kohe','NSV Liit liitus teljeriikidega'], answer:0, explanation:'Teine rinne kergendas survet idarinnele.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Keda kujutas karikatuur MRP kontekstis?', options:['Hitlerit ja Stalinit','Churchilli ja Roosevelti','Pätsi ja Laidonerit','Kennedyt ja Hruštšovi'], answer:0, explanation:'Karikatuuril olid Hitler ja Stalin.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Mis kokkulepe MR pakti juures võimaldas Poola jagamise?', options:['Salaprotokoll huvisfääride kohta','Marshalli plaan','Rahvasteliidu põhikiri','Atlandi harta'], answer:0, explanation:'Salaprotokoll jagas Ida-Euroopa huvisfäärideks.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Miks kapituleerus Poola kiiresti?', options:['Seda rünnati korraga läänest ja idast','Poolal puudus rahvas','USA toetas Saksamaad','Poola oli neutraalne'], answer:0, explanation:'Poola jäi kahe suurvõimu rünnaku alla.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Kas Müncheni kokkulepe toimus enne või pärast Poola vallutamist?', options:['Enne','Pärast'], answer:0, explanation:'Müncheni kokkulepe oli 1938, enne Poola vallutamist.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Kas Atlandi harta toimus enne või pärast Poola vallutamist?', options:['Enne','Pärast'], answer:1, explanation:'Atlandi harta sõlmiti 1941. aastal.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Miks ei tasunud Saksamaal Hitleri kohta anekdoote rääkida?', options:['Selle eest võis karistada saada','See oli seadusega kohustuslik','Kõik sakslased toetasid Hitlerit','Naljad olid lastele keelatud'], answer:0, explanation:'Totalitaarne riik ei talunud juhi naeruvääristamist.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Mida võib Hitleri-anekdootidest järeldada?', options:['Mitte kõik sakslased ei toetanud Hitlerit', 'Kõik sakslased armastasid Hitlerit','Keegi ei saanud sõjast aru','Saksamaa oli demokraatia'], answer:0, explanation:'Anekdoodid viitavad kriitilisele suhtumisele.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Mis oli üks II maailmasõja kaotamise tagajärg Saksamaale?', options:['Saksamaa jagati okupatsioonitsoonideks','Saksamaa liitus kohe NATO-ga','Saksamaa sai juurde territooriumi','Saksamaa jäi täiesti puutumatuks'], answer:0, explanation:'Pärast sõda jagati Saksamaa okupatsioonitsoonideks.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Millega läksid Hiroshima ja Nagasaki ajalukku?', options:['Tuumapommidega', 'Normandia dessandiga','Rahulepingu sõlmimisega','Berliini blokaadiga'], answer:0, explanation:'USA heitis nendele linnadele tuumapommid.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Millises riigis oli sõja ohvrite osakaal rahvastikust väga suur?', options:['Poolas','Rootsis','Hispaanias','Šveitsis'], answer:0, explanation:'Poola kandis väga raskeid inimkaotusi.'},
+      {topic:'Teine maailmasõda', type:'mcq', q:'Millised riigid olid tsiviilohvrite arvult tipus?', options:['Hiina, NSVL, Poola, Indoneesia','Eesti, Läti, Leedu, Soome','Rootsi, Šveits, Portugal, Iirimaa','Taani, Norra, Belgia, Holland'], answer:0, explanation:'Nendes riikides oli tsiviilohvrite arv eriti suur.'},
+
+      // Külm sõda ja idabloki lagunemine
+      {topic:'Külm sõda', type:'mcq', q:'Miks nimetatakse USA ja NSV Liidu konflikti külmaks sõjaks?', options:['Suurriigid ei pidanud omavahel otsest kuuma sõda','Sõda toimus ainult talvel','See oli lühike sõda','See toimus põhjapoolkeral'], answer:0, explanation:'Konflikt jäi peamiselt kaudseks.'},
+      {topic:'Külm sõda', type:'mcq', q:'Millist sündmust peetakse külma sõja alguseks?', options:['Berliini blokaadi','Balti ketti','Normandia dessanti','Pearl Harborit'], answer:0, explanation:'Berliini blokaadi peetakse üheks külma sõja alguse tähiseks.'},
+      {topic:'Külm sõda', type:'mcq', q:'Milline värv kaardil tähistas Nõukogude Liidu mõjupiirkonda?', options:['Punane','Sinine','Roheline','Kollane'], answer:0, explanation:'Punane tähistas NSV Liidu mõjusfääri.'},
+      {topic:'Külm sõda', type:'mcq', q:'Milline märksõna iseloomustab külma sõja perioodi?', options:['Kahepooluseline maailm','Holokaust','Rahvasteliit','Müncheni kokkulepe'], answer:0, explanation:'Külma sõda iseloomustas kahepooluseline maailm.'},
+      {topic:'Külm sõda', type:'mcq', q:'Milline sündmus EI kuulunud külma sõja aega?', options:['Mandžuuria kriis','Kuuba kriis','Korea sõda','Vietnami sõda'], answer:0, explanation:'Mandžuuria kriis oli varasem.'},
+      {topic:'Külm sõda', type:'mcq', q:'Millist kriisi kujutavad Kennedy ja Hruštšovi vastasseis?', options:['Kuuba kriisi','Korea sõda','Suessi kriisi','Afganistani sõda'], answer:0, explanation:'Karikatuur viitas Kuuba kriisile.'},
+      {topic:'Külm sõda', type:'mcq', q:'Mis oli glasnost?', options:['Tsensuuri vähenemine ja sõnavabaduse suurenemine','Sõjaline blokk','Uus valuuta','Põllumajandusreform'], answer:0, explanation:'Glasnost tähendas avalikustamist ja avatust.'},
+      {topic:'Külm sõda', type:'mcq', q:'Mis oli perestroika?', options:['Majanduse ja poliitika reformiprogramm','Tuumasõda','Kosmosevõidujooks','NATO laienemine'], answer:0, explanation:'Perestroika oli Nõukogude süsteemi reformiprogramm.'},
+      {topic:'Külm sõda', type:'mcq', q:'Kes oli Mihhail Gorbatšov?', options:['NSV Liidu liider','USA president','Saksa kantsler','Eesti president'], answer:0, explanation:'Gorbatšov juhtis NSV Liitu selle lagunemise ajal.'},
+      {topic:'Külm sõda', type:'mcq', q:'Miks võis Tšornobõli katastroof kiirendada NSV Liidu lagunemist?', options:['See suurendas avatust ja rahulolematust süsteemiga','See tugevdas tsensuuri lõplikult','See lõpetas reformid','See tõi kohe euro'], answer:0, explanation:'Katastroof lõi usalduskriisi ja kasvatas avalikkuse nõudmisi.'},
+      {topic:'Külm sõda', type:'mcq', q:'Mis oli Varssavi Lepingu Organisatsioon?', options:['Nõukogude Liidu juhitud sõjalis-poliitiline blokk','EL eelkäija','ÜRO allorgan','Soomusrongide liit'], answer:0, explanation:'See koondas Nõukogude mõjusfääri sotsialistlikke riike.'},
+      {topic:'Külm sõda', type:'mcq', q:'Nimeta riik, mis kuulus Varssavi blokki.', options:['Poola','Rootsi','Šveits','Portugal'], answer:0, explanation:'Poola kuulus Varssavi pakti.'},
+      {topic:'Külm sõda', type:'mcq', q:'Milline Euroopa sotsialistlik riik ei kuulunud Varssavi blokki?', options:['Jugoslaavia','Ungari','Bulgaaria','Poola'], answer:0, explanation:'Jugoslaavia ei kuulunud VLO-sse.'},
+      {topic:'Külm sõda', type:'mcq', q:'Mis on Kuuba kriisi teine nimi?', options:['Kariibi kriis','Talvesõda','Müncheni kriis','Pearl Harbori kriis'], answer:0, explanation:'Kuuba kriisi nimetatakse ka Kariibi kriisiks või raketikriisiks.'},
+      {topic:'Külm sõda', type:'mcq', q:'Keda kujutas Kuuba kriisi karikatuuri kiilaspea horisondi kohal?', options:['Nikita Hruštšovi','Stalinit','Churchilli','Trumanit'], answer:0, explanation:'Õige vastus on Hruštšov.'},
+      {topic:'Külm sõda', type:'mcq', q:'Too näide külma sõja relvakonfliktist.', options:['Korea sõda','Vabadussõda','Liivi sõda','Seitsmeaastane sõda'], answer:0, explanation:'Näiteks Korea, Vietnami või Afganistani sõda.'},
+      {topic:'Külm sõda', type:'mcq', q:'Miks kasutati külma sõja ajal sporti propagandaks?', options:['Spordivõidud pidid tõestama süsteemi üleolekut','Sport asendas sõjaväge','Spordis polnud poliitikat','Ainult meelelahutuseks'], answer:0, explanation:'Spordi edu kujutati poliitilise süsteemi tugevuse tõendina.'},
+      {topic:'Külm sõda', type:'mcq', q:'Millises valdkonnas konkureeriti külmas sõjas lisaks spordile?', options:['Kosmoseteadus','Aiandus','Kokkandus','Moeajakirjad'], answer:0, explanation:'Tugev võidujooks toimus kosmoses ja relvastuses.'},
+      {topic:'Külm sõda', type:'mcq', q:'Mis oli üks põhjus, miks Nõukogude impeerium kokku varises?', options:['Pikaajalised majandusraskused','NATO kadumine','Soomusrongide puudus','Rahvasteliidu tugevnemine'], answer:0, explanation:'Majandusraskused ja süsteemi jätkusuutmatus olid olulised põhjused.'},
+      {topic:'Külm sõda', type:'mcq', q:'Milline mõiste tähistab piiri ida ja lääne vahel Euroopas?', options:['Raudne eesriie','Berliini blokaad','Kummaline sõda','Atlandi harta'], answer:0, explanation:'Raudne eesriie eraldas ida- ja läänebloki.'},
+
+      // Kultuur, tehnika, ühiskond
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Milles seisnes raadio kui moodsa sidevahendi tähtsus?', options:['Info ja uudiste kiire levik','Ainult muusika mängimine','Sõdade lõpetamine','Rahareform'], answer:0, explanation:'Raadio võimaldas kiiresti levitada infot ja teateid.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Kuidas kasutati massimeediat poliitikas?', options:['Propaganda levitamiseks','Ainult sportimiseks','Metsanduse arendamiseks','Ainult teaduseks'], answer:0, explanation:'Massimeedia mõjutas avalikku arvamust ja levitas ideoloogiat.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Milline on tuumaenergia üks positiivne mõju?', options:['Elektri tootmine väiksema õhusaastega','See välistab kõik riskid','See lõpetab sõjad','See ei vaja kunagi jäätmekäitlust'], answer:0, explanation:'Tuumaenergia võib olla väiksema otsese õhusaastega kui fossiilkütused.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Milline on tuumaenergia üks negatiivne mõju?', options:['Radioaktiivsed jäätmed ja avariad','Kiirem internet','Rohkem rahu','Vähem elektrit'], answer:0, explanation:'Avariad ja jäätmed võivad olla väga ohtlikud.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Mis on infotehnoloogia üks positiivne mõju?', options:['Kiire infovahetus','Vähem teadmisi','Suhtluse kadumine','Ainult oht'], answer:0, explanation:'IT võimaldab kiiret suhtlust ja ligipääsu infole.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Mis on infotehnoloogia üks negatiivne mõju?', options:['Privaatsuse vähenemine ja küberohud','Põllumajanduse lõpp','Raadio kadumine','Sõdade lõpp'], answer:0, explanation:'IT arenguga kaasnevad ka privaatsusriskid ja küberohud.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Mis on kosmoseuuringute üks positiivne mõju?', options:['GPS ja muu tehnoloogia areng','Mood aeglustus','Raudteede kadumine','Holokausti lõpp'], answer:0, explanation:'Kosmoseuuringud tõid kaasa mitmeid uusi tehnoloogiaid.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Mis on kosmoseuuringute üks negatiivne mõju?', options:['Suur kulu ja kosmoseprügi','Keelte kadumine','Valimiste puudumine','Tuumarelvade keeld'], answer:0, explanation:'Kosmosevõidujooks oli väga kulukas ja tekitas kosmoseprügi.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Milline leiutis aitas kaasa tarbimisühiskonna tekkele?', options:['Konveiersüsteem','Aurumasin antiikajal','Mõisareform','Rahvasteliit'], answer:0, explanation:'Konveiersüsteem võimaldas odavat masstootmist.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Milline sündmus pidurdas XX sajandil mõneks ajaks tarbimist?', options:['Ülemaailmne majanduskriis','EL laienemine','NATO loomine','IME programm'], answer:0, explanation:'Näiteks maailmasõjad ja majanduskriis pidurdasid tarbimist.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Mis aitas avada uusi turge McDonaldsile ja Coca-Colale?', options:['Nõukogude Liidu kokkuvarisemine','Tartu rahu','Vabadussõda','Berliini blokaad'], answer:0, explanation:'Kahepooluselise maailma lõpp avas uusi turge.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Kas külma sõja vastasseis avaldus ka spordis?', options:['Jah','Ei'], answer:0, explanation:'Sport oli osa külma sõja sümboolsest võistlusest.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Kas maailmasõdade ajal toimusid olümpiamängud?', options:['Ei toimunud','Toimusid kogu aeg'], answer:0, explanation:'Maailmasõdade ajal olümpiamängud ei toimunud.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Kas rock’n’roll ja popmuusika olid NSV Liidus täiesti tundmatud?', options:['Ei','Jah'], answer:0, explanation:'Need olid tuntud, kuigi võimu suhtumine oli sageli kriitiline.'},
+      {topic:'Kultuur ja tehnika', type:'mcq', q:'Kas Ameerika filmitööstus muutus populaarseks XX sajandi keskel?', options:['Jah','Ei'], answer:0, explanation:'Hollywood muutus väga mõjukaks ja populaarseks.'}
     ];
 
-    const people = [
-      ["Konstantin Päts", "Eesti riigimees ja president."], ["Johan Laidoner", "Vabadussõja ülemjuhataja."],
-      ["Lenin", "Bolševike juht."], ["Stalin", "NSV Liidu juht."], ["Hitler", "Natsi-Saksamaa juht."],
-      ["Churchill", "Suurbritannia peaminister."], ["Roosevelt", "USA president."],
-      ["Gorbatšov", "NSV Liidu reformimeelne juht."], ["Lennart Meri", "Eesti poliitik ja president."],
-      ["Arnold Rüütel", "Eesti poliitik taasiseseisvumise ajal."]
-    ];
-
-    const flashcards = [
-      ["Molotovi–Ribbentropi pakt", "1939. aasta Saksamaa ja NSV Liidu leping."],
-      ["Tartu rahu", "1920. aasta rahuleping Eesti ja Nõukogude Venemaa vahel."],
-      ["Külm sõda", "USA ja NSV Liidu vastasseis."],
-      ["Balti kett", "1989. aasta inimkett läbi Balti riikide."],
-      ["Küüditamine", "Inimeste sunniviisiline viimine asumisele."],
-      ["Marshalli plaan", "USA abi Euroopale pärast II maailmasõda."],
-      ["Raudne eesriie", "Ida- ja Lääne-Euroopa eraldatus."],
-      ["Kollektiviseerimine", "Talude ühendamine kolhoosidesse."],
-      ["Metsavennad", "Relvastatud vastupanu nõukogude võimule."],
-      ["Laulev revolutsioon", "Rahumeelne liikumine Eesti iseseisvuse taastamiseks."]
-    ];
-
-    const examQuestions = [
-      {q:"Millal kuulutati välja Eesti iseseisvus?",options:["1917","1918","1920","1940"],answer:1,explanation:"24.02.1918"},
-      {q:"Mis lõpetas Vabadussõja?",options:["Versailles","Tartu rahu","Brest-Litovsk","MR pakt"],answer:1,explanation:"Tartu rahu 1920"},
-      {q:"Kes juhtis Eesti vägesid Vabadussõjas?",options:["Päts","Laidoner","Stalin","Hitler"],answer:1,explanation:"Laidoner"},
-      {q:"Millal algas II maailmasõda?",options:["1938","1939","1940","1941"],answer:1,explanation:"1.09.1939"},
-      {q:"Mis oli MR pakt?",options:["Rahu","Salakokkulepe","Liit","Reform"],answer:1,explanation:"Saksamaa–NSVL leping"},
-      {q:"Mis juhtus Eestis 1940?",options:["Iseseisvus","Okupeerimine","Rahu","Balti kett"],answer:1,explanation:"NSVL okupatsioon"},
-      {q:"Mis on NATO?",options:["Majandusliit","Sõjaline liit","Pank","ÜRO osa"],answer:1,explanation:"1949"},
-      {q:"Mis on külm sõda?",options:["Talvesõda","USA–NSVL vastasseis","I MS","Rahu"],answer:1,explanation:"Ideoloogiline vastasseis"},
-      {q:"Millal Balti kett?",options:["1988","1989","1990","1991"],answer:1,explanation:"23.08.1989"},
-      {q:"Millal taasiseseisvus Eesti?",options:["1988","1989","1991","1994"],answer:2,explanation:"20.08.1991"},
-      {q:"Mis oli juuniküüditamine?",options:["Vabatahtlik","Sundväljasaatmine","Õppus","Rahu"],answer:1,explanation:"1941"},
-      {q:"Marshalli plaan?",options:["Sõda","USA abi Euroopale","Pakt","Seadus"],answer:1,explanation:"Külm sõda"},
-      {q:"Kes oli Hitler?",options:["USA president","NSVL juht","Saksamaa diktaator","Eesti juht"],answer:2,explanation:"Natsi-Saksamaa"},
-      {q:"Mis oli laulev revolutsioon?",options:["Sõda","Rahumeelne liikumine","Leping","Kriis"],answer:1,explanation:"1988–1991"},
-      {q:"2004 Eesti?",options:["Tartu rahu","NATO+EL","Balti kett","Küüditamine"],answer:1,explanation:"EL ja NATO"},
-      {q:"Kes oli Stalin?",options:["USA president","NSVL juht","Eesti president","Kindral"],answer:1,explanation:"NSVL"},
-      {q:"Mis oli Varssavi pakt?",options:["Lääne liit","Idabloki sõjaline liit","Pank","Leping Eesti"],answer:1,explanation:"1955"},
-      {q:"Mis oli raudne eesriie?",options:["Sein","Euroopa jagunemine","Relv","Sild"],answer:1,explanation:"Ida vs Lääs"},
-      {q:"Millal lõppes II MS Euroopas?",options:["1943","1945","1947","1950"],answer:1,explanation:"1945"},
-      {q:"Kes oli Päts?",options:["Kindral","President","Kirjanik","Sõdur"],answer:1,explanation:"Eesti riigipea"},
-      {q:"Mis oli kollektiviseerimine?",options:["Talude ühendamine","Sõda","Reform","Kool"],answer:0,explanation:"Kolhoosid"},
-      {q:"Mis oli metsavendlus?",options:["Sport","Relvastatud vastupanu","Parteitöö","Õppus"],answer:1,explanation:"Vastupanu NSVL-le"},
-      {q:"Mis oli 1949 märtsiküüditamine?",options:["Pidustus","Massküüditamine","Valimised","Rahu"],answer:1,explanation:"Siber"},
-      {q:"Kes oli Lenin?",options:["USA president","Bolševike juht","Eesti juht","Kindral"],answer:1,explanation:"Revolutsioon"},
-      {q:"Mis oli Brest-Litovski rahu?",options:["I MS rahu Venemaa ja Saksamaa vahel","II MS leping","Eesti rahu","Pakt"],answer:0,explanation:"1918"},
-      {q:"Mis oli Entente?",options:["Liit I MS-s","Relv","Riik","Pakt"],answer:0,explanation:"Prantsusmaa, UK, Venemaa"},
-      {q:"Mis olid Keskriigid?",options:["USA liit","Saksamaa liit","NSVL","EL"],answer:1,explanation:"Saksamaa, Austria-Ungari"},
-      {q:"Mis oli Suur põgenemine 1944?",options:["Pidustus","Eestlaste põgenemine läände","Sõda","Leping"],answer:1,explanation:"NSVL eest"},
-      {q:"Kes oli Churchill?",options:["USA president","UK peaminister","NSVL juht","Eesti juht"],answer:1,explanation:"II MS"},
-      {q:"Kes oli Roosevelt?",options:["USA president","Saksa juht","Eesti juht","Kindral"],answer:0,explanation:"II MS"},
-      {q:"Mis oli ÜRO?",options:["Sõjaline liit","Rahvusvaheline organisatsioon","Pank","Kool"],answer:1,explanation:"1945"},
-      {q:"Mis oli glasnost?",options:["Avatus","Sõda","Relv","Pakt"],answer:0,explanation:"Gorbatšov"},
-      {q:"Mis oli perestroika?",options:["Majandusreform","Sõda","Relv","Pakt"],answer:0,explanation:"NSVL reform"},
-      {q:"Kes oli Gorbatšov?",options:["USA president","NSVL juht","Eesti juht","Kindral"],answer:1,explanation:"Reformid"}
-    ];
-
-    const timelineGrid = document.getElementById('timelineGrid');
-    const peopleGrid = document.getElementById('peopleGrid');
-    const flashcardsGrid = document.getElementById('flashcardsGrid');
-    const examContainer = document.getElementById('examContainer');
-    const resultContainer = document.getElementById('resultContainer');
-    const progressEl = document.getElementById('progress');
-    const timerEl = document.getElementById('timer');
-    const startExamBtn = document.getElementById('startExamBtn');
-
-    timelineItems.forEach(([year, event]) => {
-      const div = document.createElement('div');
-      div.className = 'timeline-item';
-      div.innerHTML = `<div class="timeline-year">${year}</div><div>${event}</div>`;
-      timelineGrid.appendChild(div);
-    });
-
-    people.forEach(([name, desc]) => {
-      const div = document.createElement('div');
-      div.className = 'person';
-      div.innerHTML = `<h3>${name}</h3><div class="small">${desc}</div>`;
-      peopleGrid.appendChild(div);
-    });
-
-    flashcards.forEach(([front, back]) => {
-      const div = document.createElement('div');
-      div.className = 'flashcard';
-      div.dataset.side = 'front';
-      div.textContent = front;
-      div.onclick = () => {
-        div.textContent = div.dataset.side === 'front' ? back : front;
-        div.dataset.side = div.dataset.side === 'front' ? 'back' : 'front';
-      };
-      flashcardsGrid.appendChild(div);
-    });
-
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(btn.dataset.tab).classList.add('active');
-      });
-    });
-
-    let started = false;
-    let remaining = 20 * 60;
+    const EXAM_SIZE = Math.min(60, questionBank.length);
+    let examQuestions = [];
+    let examAnswers = [];
     let timerId = null;
-    let selectedAnswers = new Array(examQuestions.length).fill(null);
+    let remaining = 50 * 60;
 
-    function formatTime(seconds) {
+    const statCount = document.getElementById('statCount');
+    const topicFilter = document.getElementById('topicFilter');
+    const practiceContainer = document.getElementById('practiceContainer');
+    const practiceCount = document.getElementById('practiceCount');
+    const examContainer = document.getElementById('examContainer');
+    const examResult = document.getElementById('examResult');
+    const timer = document.getElementById('timer');
+    const progress = document.getElementById('progress');
+
+    statCount.textContent = questionBank.length;
+
+    function uniqTopics() {
+      return ['Kõik', ...new Set(questionBank.map(q => q.topic))];
+    }
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function fmt(seconds) {
       const m = Math.floor(seconds / 60);
       const s = seconds % 60;
       return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
     }
 
-    function updateProgress() {
-      const answered = selectedAnswers.filter(v => v !== null).length;
-      progressEl.textContent = `Vastatud: ${answered}/${examQuestions.length}`;
+    function renderMCQ(q, index, mode='practice') {
+      const wrap = document.createElement('div');
+      wrap.className = 'question';
+      wrap.innerHTML = `<h3>${index + 1}. ${q.q}</h3><div class="answers"></div>`;
+      const answers = wrap.querySelector('.answers');
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'answer-btn';
+        btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+        btn.onclick = () => {
+          if (mode === 'practice') {
+            answers.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('correct', 'wrong'));
+            btn.classList.add(i === q.answer ? 'correct' : 'wrong');
+            if (i !== q.answer) answers.children[q.answer].classList.add('correct');
+            if (!wrap.querySelector('.small.expl')) {
+              const p = document.createElement('div');
+              p.className = 'small expl';
+              p.style.marginTop = '10px';
+              p.textContent = `Selgitus: ${q.explanation}`;
+              wrap.appendChild(p);
+            }
+          } else {
+            examAnswers[index] = i;
+            answers.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('correct', 'wrong'));
+            btn.classList.add('correct');
+            updateProgress();
+          }
+        };
+        answers.appendChild(btn);
+      });
+      return wrap;
     }
 
-    function renderExam() {
-      examContainer.innerHTML = '';
-      examQuestions.forEach((item, index) => {
-        const qDiv = document.createElement('div');
-        qDiv.className = 'question';
-        qDiv.innerHTML = `<div class="question-title">${index + 1}. ${item.q}</div><div class="answers">${
-          item.options.map((opt, optIndex) => `<button class="answer-btn" data-q="${index}" data-opt="${optIndex}">${String.fromCharCode(65 + optIndex)}. ${opt}</button>`).join('')
-        }</div>`;
-        examContainer.appendChild(qDiv);
-      });
+    function loadPractice() {
+      const topic = topicFilter.value;
+      const data = topic === 'Kõik' ? questionBank : questionBank.filter(q => q.topic === topic);
+      practiceContainer.innerHTML = '';
+      practiceCount.textContent = `${data.length} küsimust`;
+      data.forEach((q, i) => practiceContainer.appendChild(renderMCQ(q, i, 'practice')));
+    }
 
-      examContainer.querySelectorAll('.answer-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          if (!started) return;
-          const q = Number(btn.dataset.q);
-          const opt = Number(btn.dataset.opt);
-          selectedAnswers[q] = opt;
-          const parent = btn.parentElement;
-          parent.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('correct', 'wrong'));
-          btn.classList.add('correct');
-          updateProgress();
-        });
-      });
-
-      const submitBtn = document.createElement('button');
-      submitBtn.className = 'action-btn';
-      submitBtn.style.maxWidth = '280px';
-      submitBtn.style.background = 'var(--primary)';
-      submitBtn.style.color = 'white';
-      submitBtn.style.borderColor = 'var(--primary)';
-      submitBtn.textContent = 'Lõpeta test';
-      submitBtn.onclick = finishExam;
-      examContainer.appendChild(submitBtn);
+    function updateProgress() {
+      const answered = examAnswers.filter(v => v !== null && v !== undefined).length;
+      progress.textContent = `Vastatud: ${answered}/${examQuestions.length}`;
     }
 
     function startExam() {
-      started = true;
-      remaining = 20 * 60;
-      selectedAnswers = new Array(examQuestions.length).fill(null);
-      resultContainer.innerHTML = '';
-      renderExam();
-      updateProgress();
-      timerEl.textContent = `Aeg: ${formatTime(remaining)}`;
       clearInterval(timerId);
+      remaining = 50 * 60;
+      timer.textContent = `Aeg: ${fmt(remaining)}`;
+      examQuestions = shuffle(questionBank).slice(0, EXAM_SIZE);
+      examAnswers = new Array(examQuestions.length).fill(null);
+      examContainer.innerHTML = '';
+      examResult.innerHTML = '';
+      examQuestions.forEach((q, i) => examContainer.appendChild(renderMCQ(q, i, 'exam')));
+      const finishBtn = document.createElement('button');
+      finishBtn.className = 'primary-btn';
+      finishBtn.textContent = 'Lõpeta eksam';
+      finishBtn.style.marginTop = '10px';
+      finishBtn.onclick = finishExam;
+      examContainer.appendChild(finishBtn);
+      updateProgress();
       timerId = setInterval(() => {
         remaining--;
-        timerEl.textContent = `Aeg: ${formatTime(remaining)}`;
+        timer.textContent = `Aeg: ${fmt(remaining)}`;
         if (remaining <= 0) {
           clearInterval(timerId);
           finishExam();
@@ -306,54 +392,54 @@
     }
 
     function finishExam() {
-      if (!started) return;
-      started = false;
       clearInterval(timerId);
-
       let score = 0;
-      examContainer.querySelectorAll('.question').forEach((qDiv, qIndex) => {
-        const buttons = qDiv.querySelectorAll('.answer-btn');
-        buttons.forEach((btn, optIndex) => {
+      const blocks = examContainer.querySelectorAll('.question');
+      examQuestions.forEach((q, i) => {
+        if (examAnswers[i] === q.answer) score++;
+        const buttons = blocks[i].querySelectorAll('.answer-btn');
+        buttons.forEach((btn, idx) => {
           btn.disabled = true;
-          btn.classList.remove('correct', 'wrong');
-          if (optIndex === examQuestions[qIndex].answer) btn.classList.add('correct');
-          if (selectedAnswers[qIndex] === optIndex && optIndex !== examQuestions[qIndex].answer) btn.classList.add('wrong');
+          btn.classList.remove('correct','wrong');
+          if (idx === q.answer) btn.classList.add('correct');
+          if (examAnswers[i] === idx && idx !== q.answer) btn.classList.add('wrong');
         });
-        if (selectedAnswers[qIndex] === examQuestions[qIndex].answer) score++;
+        const p = document.createElement('div');
+        p.className = 'small';
+        p.style.marginTop = '10px';
+        p.textContent = `Selgitus: ${q.explanation}`;
+        blocks[i].appendChild(p);
       });
-
-      const percent = Math.round((score / examQuestions.length) * 100);
-      const wrongReviews = examQuestions.map((q, i) => ({ q, i })).filter(({ i, q }) => selectedAnswers[i] !== q.answer);
-
-      resultContainer.innerHTML = `
-        <div class="result-box">
-          <h2 class="section-title">Tulemus</h2>
-          <div class="grid-3">
-            <div class="stat"><strong>${score}/${examQuestions.length}</strong><span class="small">õigeid vastuseid</span></div>
-            <div class="stat"><strong>${percent}%</strong><span class="small">kogutulemus</span></div>
-            <div class="stat"><strong>${percent >= 90 ? 'Väga hea' : percent >= 75 ? 'Hea' : percent >= 50 ? 'Rahuldav' : 'Harjuta veel'}</strong><span class="small">hinnang</span></div>
-          </div>
-          <div style="margin-top:16px;">
-            <button class="action-btn" id="restartBtn" style="max-width:280px; background:var(--primary); color:white; border-color:var(--primary);">Tee test uuesti</button>
-          </div>
-          <div style="margin-top:18px;">
-            <h3 style="margin-bottom:8px;">Valed vastused ja selgitused</h3>
-            ${wrongReviews.length ? wrongReviews.map(({ q, i }) => `
-              <div class="review-item">
-                <strong>${i + 1}. ${q.q}</strong><br>
-                <span class="small">Sinu vastus: ${selectedAnswers[i] === null ? 'vastamata' : q.options[selectedAnswers[i]]}</span><br>
-                <span class="small">Õige vastus: ${q.options[q.answer]}</span><br>
-                <span>${q.explanation}</span>
-              </div>`).join('') : '<div class="small">Kõik vastused olid õiged. Väga tubli!</div>'}
-          </div>
-        </div>
-      `;
-      document.getElementById('restartBtn').onclick = startExam;
+      const percent = Math.round(score / examQuestions.length * 100);
+      examResult.innerHTML = `
+        <div class="result">
+          <div class="pill">Õigeid: ${score}/${examQuestions.length}</div>
+          <div class="pill">Tulemus: ${percent}%</div>
+          <div class="pill">Hinnang: ${percent >= 90 ? 'Väga hea' : percent >= 75 ? 'Hea' : percent >= 50 ? 'Rahuldav' : 'Harjuta veel'}</div>
+          <div style="margin-top:16px"><button class="primary-btn" id="againBtn">Tee uus juhuslik eksam</button></div>
+        </div>`;
+      document.getElementById('againBtn').onclick = startExam;
     }
 
-    startExamBtn.addEventListener('click', startExam);
-    updateProgress();
-    timerEl.textContent = `Aeg: ${formatTime(remaining)}`;
+    uniqTopics().forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t;
+      opt.textContent = t;
+      topicFilter.appendChild(opt);
+    });
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      };
+    });
+
+    document.getElementById('loadPracticeBtn').onclick = loadPractice;
+    document.getElementById('startExamBtn').onclick = startExam;
+    loadPractice();
   </script>
 </body>
 </html>
