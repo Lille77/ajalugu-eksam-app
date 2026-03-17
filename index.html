@@ -1,1 +1,359 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Põhikooli ajalooeksami äpp</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #1d4ed8;
+      --primary-soft: #dbeafe;
+      --good: #dcfce7;
+      --bad: #fee2e2;
+      --border: #e5e7eb;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: var(--bg); color: var(--text); line-height: 1.45; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
+    .hero { background: linear-gradient(135deg, #1d4ed8, #2563eb); color: white; border-radius: 24px; padding: 28px; box-shadow: var(--shadow); margin-bottom: 20px; }
+    .hero h1 { margin: 0 0 8px; font-size: 34px; }
+    .hero p { margin: 0; opacity: 0.95; max-width: 760px; }
+    .top-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin: 20px 0; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); }
+    .section-title { margin: 0 0 12px; font-size: 22px; }
+    .small { color: var(--muted); font-size: 14px; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+    .stat { background: #f8fafc; border: 1px solid var(--border); border-radius: 16px; padding: 14px; }
+    .stat strong { display: block; font-size: 24px; margin-bottom: 4px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 20px; }
+    .tab-btn { border: 1px solid var(--border); background: white; color: var(--text); padding: 12px 16px; border-radius: 999px; cursor: pointer; font-weight: bold; }
+    .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .grid-2, .grid-3, .grid-4 { display: grid; gap: 14px; }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .timeline-item, .person, .flashcard, .topic-box { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 16px; box-shadow: var(--shadow); }
+    .timeline-year { color: var(--primary); font-size: 24px; font-weight: bold; margin-bottom: 6px; }
+    .flashcard { cursor: pointer; min-height: 120px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: bold; font-size: 18px; background: linear-gradient(180deg, #ffffff, #f8fafc); }
+    .topic-box h3, .person h3 { margin-top: 0; margin-bottom: 8px; }
+    .topic-box ul { margin: 8px 0 0 18px; padding: 0; }
+    .exam-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+    .pill { background: var(--primary-soft); color: var(--primary); padding: 10px 14px; border-radius: 999px; font-weight: bold; }
+    .question { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 18px; box-shadow: var(--shadow); margin-bottom: 14px; }
+    .question-title { font-weight: bold; margin-bottom: 12px; font-size: 18px; }
+    .answers { display: grid; gap: 10px; }
+    button.answer-btn, .action-btn { display: block; width: 100%; text-align: left; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--border); background: #f9fafb; cursor: pointer; font-size: 15px; }
+    button.answer-btn:hover, .action-btn:hover, .tab-btn:hover { filter: brightness(0.98); }
+    button.answer-btn.correct { background: var(--good); border-color: #86efac; }
+    button.answer-btn.wrong { background: var(--bad); border-color: #fca5a5; }
+    .result-box { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); margin-top: 18px; }
+    .review-item { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
+    .footer-note { color: var(--muted); text-align: center; margin: 24px 0 8px; font-size: 14px; }
+    @media (max-width: 900px) {
+      .top-grid, .grid-4, .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1>Põhikooli ajalooeksami äpp</h1>
+      <p>Õpi 9. klassi ajalooeksamiks teemade, aastaarvude, oluliste inimeste, sõnakaartide ja päris eksami moodi valikvastustega testiga.</p>
+    </div>
 
+    <div class="top-grid">
+      <div class="card">
+        <h2 class="section-title">Mis siin sees on?</h2>
+        <div class="stats">
+          <div class="stat"><strong>6</strong><span class="small">põhiteemat</span></div>
+          <div class="stat"><strong>20</strong><span class="small">tähtsat aastaarvu</span></div>
+          <div class="stat"><strong>10</strong><span class="small">olulist inimest</span></div>
+          <div class="stat"><strong>34</strong><span class="small">eksamiküsimust</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="section-title">Kuidas õppida?</h2>
+        <div class="small">1. Vaata teemad läbi.<br>2. Korda aastaarve ja inimesi.<br>3. Klõpsa sõnakaarte.<br>4. Tee eksami test lõpuni.<br>5. Vaata üle valed vastused.</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="teemad">Teemad</button>
+      <button class="tab-btn" data-tab="aastad">Aastaarvud</button>
+      <button class="tab-btn" data-tab="inimesed">Inimesed</button>
+      <button class="tab-btn" data-tab="flashcards">Sõnakaardid</button>
+      <button class="tab-btn" data-tab="eksam">Eksami test</button>
+    </div>
+
+    <div id="teemad" class="tab-panel active">
+      <div class="grid-2">
+        <div class="topic-box"><h3>I maailmasõda ja Eesti iseseisvumine</h3><ul><li>1914 algas I maailmasõda</li><li>1917 Vene revolutsioonid</li><li>24.02.1918 Eesti iseseisvuse väljakuulutamine</li></ul></div>
+        <div class="topic-box"><h3>Vabadussõda ja Tartu rahu</h3><ul><li>1918–1920 Vabadussõda</li><li>Johan Laidoner</li><li>02.02.1920 Tartu rahu</li></ul></div>
+        <div class="topic-box"><h3>II maailmasõda</h3><ul><li>1939 sõja algus</li><li>Molotovi–Ribbentropi pakt</li><li>1940 Eesti okupeerimine</li><li>1945 sõja lõpp Euroopas</li></ul></div>
+        <div class="topic-box"><h3>Külm sõda</h3><ul><li>Trumani doktriin</li><li>Marshalli plaan</li><li>NATO ja Varssavi pakt</li><li>Raudne eesriie</li></ul></div>
+        <div class="topic-box"><h3>Eesti NSV aeg</h3><ul><li>1941 ja 1949 küüditamised</li><li>Kollektiviseerimine</li><li>Tsensuur ja venestamine</li><li>Metsavendlus</li></ul></div>
+        <div class="topic-box"><h3>Taasiseseisvumine</h3><ul><li>1988 laulev revolutsioon</li><li>1989 Balti kett</li><li>1991 Eesti taasiseseisvumine</li></ul></div>
+      </div>
+    </div>
+
+    <div id="aastad" class="tab-panel"><div class="grid-4" id="timelineGrid"></div></div>
+    <div id="inimesed" class="tab-panel"><div class="grid-3" id="peopleGrid"></div></div>
+    <div id="flashcards" class="tab-panel"><div class="card" style="margin-bottom:14px;"><strong>Juhis:</strong> klõpsa kaardil, et näha vastust.</div><div class="grid-3" id="flashcardsGrid"></div></div>
+
+    <div id="eksam" class="tab-panel">
+      <div class="card">
+        <div class="exam-header">
+          <div><h2 class="section-title" style="margin-bottom:4px;">Päris eksami moodi test</h2><div class="small">34 valikvastustega küsimust ajaloo põhiteemadest.</div></div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;"><div class="pill" id="timer">Aeg: 20:00</div><div class="pill" id="progress">Vastatud: 0/34</div></div>
+        </div>
+        <button class="action-btn" id="startExamBtn" style="max-width:280px; background:var(--primary); color:white; border-color:var(--primary);">Alusta testi</button>
+      </div>
+      <div id="examContainer" style="margin-top:16px;"></div>
+      <div id="resultContainer"></div>
+    </div>
+  </div>
+
+  <script>
+    const timelineItems = [
+      ["1914", "I maailmasõja algus"], ["1917", "Vene revolutsioonid"], ["1918", "Eesti iseseisvus"],
+      ["1918–1920", "Vabadussõda"], ["1920", "Tartu rahu"], ["1939", "II maailmasõja algus"],
+      ["1940", "Eesti okupeerimine"], ["1941", "Juuniküüditamine"], ["1945", "II maailmasõja lõpp"],
+      ["1949", "Märtsiküüditamine"], ["1949", "NATO loomine"], ["1955", "Varssavi pakt"],
+      ["1988", "Laulev revolutsioon"], ["1989", "Balti kett"], ["1991", "Eesti taasiseseisvumine"],
+      ["2004", "Eesti liitus NATO ja EL-iga"]
+    ];
+
+    const people = [
+      ["Konstantin Päts", "Eesti riigimees ja president."], ["Johan Laidoner", "Vabadussõja ülemjuhataja."],
+      ["Lenin", "Bolševike juht."], ["Stalin", "NSV Liidu juht."], ["Hitler", "Natsi-Saksamaa juht."],
+      ["Churchill", "Suurbritannia peaminister."], ["Roosevelt", "USA president."],
+      ["Gorbatšov", "NSV Liidu reformimeelne juht."], ["Lennart Meri", "Eesti poliitik ja president."],
+      ["Arnold Rüütel", "Eesti poliitik taasiseseisvumise ajal."]
+    ];
+
+    const flashcards = [
+      ["Molotovi–Ribbentropi pakt", "1939. aasta Saksamaa ja NSV Liidu leping."],
+      ["Tartu rahu", "1920. aasta rahuleping Eesti ja Nõukogude Venemaa vahel."],
+      ["Külm sõda", "USA ja NSV Liidu vastasseis."],
+      ["Balti kett", "1989. aasta inimkett läbi Balti riikide."],
+      ["Küüditamine", "Inimeste sunniviisiline viimine asumisele."],
+      ["Marshalli plaan", "USA abi Euroopale pärast II maailmasõda."],
+      ["Raudne eesriie", "Ida- ja Lääne-Euroopa eraldatus."],
+      ["Kollektiviseerimine", "Talude ühendamine kolhoosidesse."],
+      ["Metsavennad", "Relvastatud vastupanu nõukogude võimule."],
+      ["Laulev revolutsioon", "Rahumeelne liikumine Eesti iseseisvuse taastamiseks."]
+    ];
+
+    const examQuestions = [
+      {q:"Millal kuulutati välja Eesti iseseisvus?",options:["1917","1918","1920","1940"],answer:1,explanation:"24.02.1918"},
+      {q:"Mis lõpetas Vabadussõja?",options:["Versailles","Tartu rahu","Brest-Litovsk","MR pakt"],answer:1,explanation:"Tartu rahu 1920"},
+      {q:"Kes juhtis Eesti vägesid Vabadussõjas?",options:["Päts","Laidoner","Stalin","Hitler"],answer:1,explanation:"Laidoner"},
+      {q:"Millal algas II maailmasõda?",options:["1938","1939","1940","1941"],answer:1,explanation:"1.09.1939"},
+      {q:"Mis oli MR pakt?",options:["Rahu","Salakokkulepe","Liit","Reform"],answer:1,explanation:"Saksamaa–NSVL leping"},
+      {q:"Mis juhtus Eestis 1940?",options:["Iseseisvus","Okupeerimine","Rahu","Balti kett"],answer:1,explanation:"NSVL okupatsioon"},
+      {q:"Mis on NATO?",options:["Majandusliit","Sõjaline liit","Pank","ÜRO osa"],answer:1,explanation:"1949"},
+      {q:"Mis on külm sõda?",options:["Talvesõda","USA–NSVL vastasseis","I MS","Rahu"],answer:1,explanation:"Ideoloogiline vastasseis"},
+      {q:"Millal Balti kett?",options:["1988","1989","1990","1991"],answer:1,explanation:"23.08.1989"},
+      {q:"Millal taasiseseisvus Eesti?",options:["1988","1989","1991","1994"],answer:2,explanation:"20.08.1991"},
+      {q:"Mis oli juuniküüditamine?",options:["Vabatahtlik","Sundväljasaatmine","Õppus","Rahu"],answer:1,explanation:"1941"},
+      {q:"Marshalli plaan?",options:["Sõda","USA abi Euroopale","Pakt","Seadus"],answer:1,explanation:"Külm sõda"},
+      {q:"Kes oli Hitler?",options:["USA president","NSVL juht","Saksamaa diktaator","Eesti juht"],answer:2,explanation:"Natsi-Saksamaa"},
+      {q:"Mis oli laulev revolutsioon?",options:["Sõda","Rahumeelne liikumine","Leping","Kriis"],answer:1,explanation:"1988–1991"},
+      {q:"2004 Eesti?",options:["Tartu rahu","NATO+EL","Balti kett","Küüditamine"],answer:1,explanation:"EL ja NATO"},
+      {q:"Kes oli Stalin?",options:["USA president","NSVL juht","Eesti president","Kindral"],answer:1,explanation:"NSVL"},
+      {q:"Mis oli Varssavi pakt?",options:["Lääne liit","Idabloki sõjaline liit","Pank","Leping Eesti"],answer:1,explanation:"1955"},
+      {q:"Mis oli raudne eesriie?",options:["Sein","Euroopa jagunemine","Relv","Sild"],answer:1,explanation:"Ida vs Lääs"},
+      {q:"Millal lõppes II MS Euroopas?",options:["1943","1945","1947","1950"],answer:1,explanation:"1945"},
+      {q:"Kes oli Päts?",options:["Kindral","President","Kirjanik","Sõdur"],answer:1,explanation:"Eesti riigipea"},
+      {q:"Mis oli kollektiviseerimine?",options:["Talude ühendamine","Sõda","Reform","Kool"],answer:0,explanation:"Kolhoosid"},
+      {q:"Mis oli metsavendlus?",options:["Sport","Relvastatud vastupanu","Parteitöö","Õppus"],answer:1,explanation:"Vastupanu NSVL-le"},
+      {q:"Mis oli 1949 märtsiküüditamine?",options:["Pidustus","Massküüditamine","Valimised","Rahu"],answer:1,explanation:"Siber"},
+      {q:"Kes oli Lenin?",options:["USA president","Bolševike juht","Eesti juht","Kindral"],answer:1,explanation:"Revolutsioon"},
+      {q:"Mis oli Brest-Litovski rahu?",options:["I MS rahu Venemaa ja Saksamaa vahel","II MS leping","Eesti rahu","Pakt"],answer:0,explanation:"1918"},
+      {q:"Mis oli Entente?",options:["Liit I MS-s","Relv","Riik","Pakt"],answer:0,explanation:"Prantsusmaa, UK, Venemaa"},
+      {q:"Mis olid Keskriigid?",options:["USA liit","Saksamaa liit","NSVL","EL"],answer:1,explanation:"Saksamaa, Austria-Ungari"},
+      {q:"Mis oli Suur põgenemine 1944?",options:["Pidustus","Eestlaste põgenemine läände","Sõda","Leping"],answer:1,explanation:"NSVL eest"},
+      {q:"Kes oli Churchill?",options:["USA president","UK peaminister","NSVL juht","Eesti juht"],answer:1,explanation:"II MS"},
+      {q:"Kes oli Roosevelt?",options:["USA president","Saksa juht","Eesti juht","Kindral"],answer:0,explanation:"II MS"},
+      {q:"Mis oli ÜRO?",options:["Sõjaline liit","Rahvusvaheline organisatsioon","Pank","Kool"],answer:1,explanation:"1945"},
+      {q:"Mis oli glasnost?",options:["Avatus","Sõda","Relv","Pakt"],answer:0,explanation:"Gorbatšov"},
+      {q:"Mis oli perestroika?",options:["Majandusreform","Sõda","Relv","Pakt"],answer:0,explanation:"NSVL reform"},
+      {q:"Kes oli Gorbatšov?",options:["USA president","NSVL juht","Eesti juht","Kindral"],answer:1,explanation:"Reformid"}
+    ];
+
+    const timelineGrid = document.getElementById('timelineGrid');
+    const peopleGrid = document.getElementById('peopleGrid');
+    const flashcardsGrid = document.getElementById('flashcardsGrid');
+    const examContainer = document.getElementById('examContainer');
+    const resultContainer = document.getElementById('resultContainer');
+    const progressEl = document.getElementById('progress');
+    const timerEl = document.getElementById('timer');
+    const startExamBtn = document.getElementById('startExamBtn');
+
+    timelineItems.forEach(([year, event]) => {
+      const div = document.createElement('div');
+      div.className = 'timeline-item';
+      div.innerHTML = `<div class="timeline-year">${year}</div><div>${event}</div>`;
+      timelineGrid.appendChild(div);
+    });
+
+    people.forEach(([name, desc]) => {
+      const div = document.createElement('div');
+      div.className = 'person';
+      div.innerHTML = `<h3>${name}</h3><div class="small">${desc}</div>`;
+      peopleGrid.appendChild(div);
+    });
+
+    flashcards.forEach(([front, back]) => {
+      const div = document.createElement('div');
+      div.className = 'flashcard';
+      div.dataset.side = 'front';
+      div.textContent = front;
+      div.onclick = () => {
+        div.textContent = div.dataset.side === 'front' ? back : front;
+        div.dataset.side = div.dataset.side === 'front' ? 'back' : 'front';
+      };
+      flashcardsGrid.appendChild(div);
+    });
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    let started = false;
+    let remaining = 20 * 60;
+    let timerId = null;
+    let selectedAnswers = new Array(examQuestions.length).fill(null);
+
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60);
+      const s = seconds % 60;
+      return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+
+    function updateProgress() {
+      const answered = selectedAnswers.filter(v => v !== null).length;
+      progressEl.textContent = `Vastatud: ${answered}/${examQuestions.length}`;
+    }
+
+    function renderExam() {
+      examContainer.innerHTML = '';
+      examQuestions.forEach((item, index) => {
+        const qDiv = document.createElement('div');
+        qDiv.className = 'question';
+        qDiv.innerHTML = `<div class="question-title">${index + 1}. ${item.q}</div><div class="answers">${
+          item.options.map((opt, optIndex) => `<button class="answer-btn" data-q="${index}" data-opt="${optIndex}">${String.fromCharCode(65 + optIndex)}. ${opt}</button>`).join('')
+        }</div>`;
+        examContainer.appendChild(qDiv);
+      });
+
+      examContainer.querySelectorAll('.answer-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (!started) return;
+          const q = Number(btn.dataset.q);
+          const opt = Number(btn.dataset.opt);
+          selectedAnswers[q] = opt;
+          const parent = btn.parentElement;
+          parent.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('correct', 'wrong'));
+          btn.classList.add('correct');
+          updateProgress();
+        });
+      });
+
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'action-btn';
+      submitBtn.style.maxWidth = '280px';
+      submitBtn.style.background = 'var(--primary)';
+      submitBtn.style.color = 'white';
+      submitBtn.style.borderColor = 'var(--primary)';
+      submitBtn.textContent = 'Lõpeta test';
+      submitBtn.onclick = finishExam;
+      examContainer.appendChild(submitBtn);
+    }
+
+    function startExam() {
+      started = true;
+      remaining = 20 * 60;
+      selectedAnswers = new Array(examQuestions.length).fill(null);
+      resultContainer.innerHTML = '';
+      renderExam();
+      updateProgress();
+      timerEl.textContent = `Aeg: ${formatTime(remaining)}`;
+      clearInterval(timerId);
+      timerId = setInterval(() => {
+        remaining--;
+        timerEl.textContent = `Aeg: ${formatTime(remaining)}`;
+        if (remaining <= 0) {
+          clearInterval(timerId);
+          finishExam();
+        }
+      }, 1000);
+    }
+
+    function finishExam() {
+      if (!started) return;
+      started = false;
+      clearInterval(timerId);
+
+      let score = 0;
+      examContainer.querySelectorAll('.question').forEach((qDiv, qIndex) => {
+        const buttons = qDiv.querySelectorAll('.answer-btn');
+        buttons.forEach((btn, optIndex) => {
+          btn.disabled = true;
+          btn.classList.remove('correct', 'wrong');
+          if (optIndex === examQuestions[qIndex].answer) btn.classList.add('correct');
+          if (selectedAnswers[qIndex] === optIndex && optIndex !== examQuestions[qIndex].answer) btn.classList.add('wrong');
+        });
+        if (selectedAnswers[qIndex] === examQuestions[qIndex].answer) score++;
+      });
+
+      const percent = Math.round((score / examQuestions.length) * 100);
+      const wrongReviews = examQuestions.map((q, i) => ({ q, i })).filter(({ i, q }) => selectedAnswers[i] !== q.answer);
+
+      resultContainer.innerHTML = `
+        <div class="result-box">
+          <h2 class="section-title">Tulemus</h2>
+          <div class="grid-3">
+            <div class="stat"><strong>${score}/${examQuestions.length}</strong><span class="small">õigeid vastuseid</span></div>
+            <div class="stat"><strong>${percent}%</strong><span class="small">kogutulemus</span></div>
+            <div class="stat"><strong>${percent >= 90 ? 'Väga hea' : percent >= 75 ? 'Hea' : percent >= 50 ? 'Rahuldav' : 'Harjuta veel'}</strong><span class="small">hinnang</span></div>
+          </div>
+          <div style="margin-top:16px;">
+            <button class="action-btn" id="restartBtn" style="max-width:280px; background:var(--primary); color:white; border-color:var(--primary);">Tee test uuesti</button>
+          </div>
+          <div style="margin-top:18px;">
+            <h3 style="margin-bottom:8px;">Valed vastused ja selgitused</h3>
+            ${wrongReviews.length ? wrongReviews.map(({ q, i }) => `
+              <div class="review-item">
+                <strong>${i + 1}. ${q.q}</strong><br>
+                <span class="small">Sinu vastus: ${selectedAnswers[i] === null ? 'vastamata' : q.options[selectedAnswers[i]]}</span><br>
+                <span class="small">Õige vastus: ${q.options[q.answer]}</span><br>
+                <span>${q.explanation}</span>
+              </div>`).join('') : '<div class="small">Kõik vastused olid õiged. Väga tubli!</div>'}
+          </div>
+        </div>
+      `;
+      document.getElementById('restartBtn').onclick = startExam;
+    }
+
+    startExamBtn.addEventListener('click', startExam);
+    updateProgress();
+    timerEl.textContent = `Aeg: ${formatTime(remaining)}`;
+  </script>
+</body>
+</html>
